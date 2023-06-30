@@ -5,12 +5,16 @@ use Perf\Models\Run;
 
 class Activate {
 	protected static $start = 0;
+	protected static $total_query_timing = 0;
 	public static $request_id;
 	public function register() {
 		self::$start = microtime(true);
 		self::$request_id = uniqid();
 		add_action('shutdown', [$this, 'on_shutdown'],9999);
-		add_action('all', [$this, 'on_all'],0);
+		add_action( 'log_query_custom_data', [$this, 'on_query'],10,5 );
+
+		// @todo All is useless data at this point. Need more definitive information.
+		//add_action('all', [$this, 'on_all'],0);
 
 	}
 
@@ -41,6 +45,11 @@ class Activate {
 		$this->last_time = microtime(true);
 	}
 
+	public function on_query($query_data, $query, $query_duration_ms, $query_callstack, $query_start) {
+		self::$total_query_timing += $query_duration_ms;
+		return $query_data;
+	}
+
 	public function on_shutdown() {
 		require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 		global $wpdb;
@@ -52,6 +61,8 @@ class Activate {
 		$run->request_uri = $_SERVER['REQUEST_URI'];
 		$run->end_time = $end;
 		$run->num_queries = $wpdb->num_queries;
+		$run->total_query_time = self::$total_query_timing;
+
 		$serialize_plugin_data = [];
 		// Generate plugin data.
 		$active_plugins = get_option('active_plugins');

@@ -120,6 +120,7 @@ register_activation_hook( __FILE__, static function() {
 `hooks` text,
 `plugins_version_hash` varchar(45) NOT NULL,
 `created_datetime` datetime DEFAULT NULL,
+`total_query_time` varchar(50) NOT NULL,
 PRIMARY KEY (`perf_run_id`),
 KEY `plugins_version_hash` (`plugins_version_hash`),
 KEY `time` (`start_time`,`end_time`)

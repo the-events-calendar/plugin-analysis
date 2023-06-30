@@ -15,6 +15,7 @@ class Run extends Model {
 		'hooks',
 		'plugins_version_hash',
 		'created_datetime',
+		'total_query_time'
 	];
 
 
