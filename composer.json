@@ -1,0 +1,18 @@
+{
+  "name": "stratease/wp-perf-analysis",
+  "autoload": {
+    "psr-4": {
+      "Perf\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:stellarwp/pigeon.git"
+    }
+  ],
+  "require": {
+    "stellarwp/pigeon": "dev-feature/pigeon-initial-release",
+    "lucatume/di52": "^2.1"
+  }
+}
