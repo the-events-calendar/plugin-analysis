@@ -1,6 +1,6 @@
 <?php
 
-namespace Perf\Models;
+namespace PPerf_Analysis\Models;
 
 class Run extends Model {
 	protected $table = 'pperf_run';
