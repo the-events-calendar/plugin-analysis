@@ -3,7 +3,10 @@
   "autoload": {
     "psr-4": {
       "PPerf_Analysis\\": "src/"
-    }
+    },
+    "classmap": [
+      "vendor/vendor-prefixed/"
+    ]
   },
   "require": {
     "stellarwp/schema": "^1.1",

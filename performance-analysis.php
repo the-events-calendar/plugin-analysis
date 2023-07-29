@@ -18,10 +18,11 @@ const PPERF_ANALYSIS_BASE_PATH = __FILE__;
 
 require __DIR__ . '/vendor/autoload.php';
 
+
 $act = new  Activate();
 $act->register();
 add_action( 'plugins_loaded', function() {
-	DB::init();
+	DB::init(); // @todo
 }, 0 );
 
 register_activation_hook( __FILE__, static function () {
