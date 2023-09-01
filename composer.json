@@ -13,13 +13,20 @@
     "lucatume/di52": "^3.3.0",
     "psr/container": "^1.0.0",
     "stellarwp/container-contract": "^1.0.4",
-    "stellarwp/db": "^1.0.3"
+    "stellarwp/db": "^1.0.3",
+    "stellarwp/models": "^1.2"
   },
   "repositories": [
     {
       "name": "lucatume/di52",
       "type": "github",
       "url": "https://github.com/lucatume/di52",
+      "no-api": true
+    },
+    {
+      "name": "stellarwp/models",
+      "type": "github",
+      "url": "https://github.com/stellarwp/models",
       "no-api": true
     }
   ],
@@ -44,13 +51,13 @@
       "packages": [
         "stellarwp/container-contract",
         "stellarwp/db",
+        "stellarwp/models",
         "lucatume/di52",
         "psr/container"
       ],
       "exclude_from_prefix": {
         "file_patterns": []
-      },
-      "delete_vendor_files": true
+      }
     }
   }
 }

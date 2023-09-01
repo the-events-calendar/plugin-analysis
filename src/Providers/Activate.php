@@ -121,8 +121,9 @@ class Activate {
 
 // @todo Too big? Save separate table?
 		// @todo $run->hooks = $this->all;
-		$run->active_plugins = $serialize_plugin_data;
-
+		ksort($serialize_plugin_data );
+		$run->active_plugins = serialize($serialize_plugin_data);
+		$run->plugins_version_hash = sha1(serialize($serialize_plugin_data));
 		$run->created_datetime = date('Y-m-d H:i:s', time());
 		$run->save();
 	}

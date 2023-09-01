@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b6f5f7df6bcb93b16a5a92c8ae5e03e8",
+    "content-hash": "9fb4b54ef3e26025957d47e7b8a1fa04",
     "packages": [
         {
             "name": "lucatume/di52",
@@ -196,6 +196,62 @@
                 "source": "https://github.com/stellarwp/db/tree/1.0.4"
             },
             "time": "2023-06-06T17:22:51+00:00"
+        },
+        {
+            "name": "stellarwp/models",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stellarwp/models",
+                "reference": "b0f25e4deaf6507df904178ed8d5e3359fde5b18"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stellarwp/models/zipball/b0f25e4deaf6507df904178ed8d5e3359fde5b18",
+                "reference": "b0f25e4deaf6507df904178ed8d5e3359fde5b18",
+                "shasum": ""
+            },
+            "require": {
+                "stellarwp/db": "^1.0.3"
+            },
+            "require-dev": {
+                "codeception/module-asserts": "^1.0",
+                "codeception/module-cli": "^1.0",
+                "codeception/module-db": "^1.0",
+                "codeception/module-filesystem": "^1.0",
+                "codeception/module-phpbrowser": "^1.0",
+                "codeception/module-rest": "^1.0",
+                "codeception/module-webdriver": "^1.0",
+                "codeception/util-universalframework": "^1.0",
+                "lucatume/wp-browser": "^3.0.14",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "StellarWP\\Models\\": "src/Models/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "StellarWP\\Models\\Tests\\": "tests/_support/Helper/"
+                }
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "StellarWP",
+                    "homepage": "https://github.com/stellarwp"
+                }
+            ],
+            "description": "A library for a simple model structure.",
+            "homepage": "https://github.com/stellarwp/models",
+            "keywords": [
+                "stellarwp"
+            ],
+            "time": "2023-06-09T18:26:14+00:00"
         },
         {
             "name": "stellarwp/schema",

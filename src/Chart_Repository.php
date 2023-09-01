@@ -146,7 +146,7 @@ STR;
 	public function get_plugins_from_hash( $hash ): array {
 		$q = "SELECT active_plugins FROM wp_pperf_run WHERE plugins_version_hash=%s LIMIT 1";
 
-		return json_decode( $this->wpdb->get_var( $this->wpdb->prepare( $q, $hash ) ), true );
+		return unserialize( $this->wpdb->get_var( $this->wpdb->prepare( $q, $hash ) ) );
 	}
 
 	public function chart_me( $label, $data, $labels, $context ) {

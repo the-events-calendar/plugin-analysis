@@ -11,6 +11,8 @@
 
 use PPerf_Analysis\Providers\Activate;
 use PPerf_Analysis\StellarWP\DB\DB;
+use PPerf_Analysis\StellarWP\DB\Config;
+
 
 const PPERF_ANALYSIS_VERSION   = '1.0.0';
 const PPERF_ANALYSIS_SLUG      = 'plugin-perf';
@@ -22,8 +24,14 @@ require __DIR__ . '/vendor/autoload.php';
 $act = new  Activate();
 $act->register();
 add_action( 'plugins_loaded', function() {
-	DB::init(); // @todo
+	Config::setHookPrefix( 'boom-shakalaka' );
+
+	DB::init();
 }, 0 );
+
+add_action('init', function() {
+
+});
 
 register_activation_hook( __FILE__, static function () {
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
