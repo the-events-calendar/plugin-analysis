@@ -3,8 +3,6 @@ namespace PPerf_Analysis\Models;
 
 use PPerf_Analysis\StellarWP\Models\Model;
 use PPerf_Analysis\StellarWP\Models\ModelQueryBuilder;
-use PPerf_Analysis\Models\Run_Repository;
-use PPerf_Analysis\StellarWP\Models\Contracts;
 
 class Run extends Model  {
 	protected $table = 'pperf_run';
@@ -22,15 +20,6 @@ class Run extends Model  {
 		'created_datetime' => 'datetime',
 		'total_query_time' => 'float'
 	];
-
-	public function __todsave() {
-		$active_plugins = $this->active_plugins;
-		ksort($active_plugins );
-		$this->active_plugins = $active_plugins;
-		$this->plugins_version_hash = sha1(serialize($active_plugins));
-
-		//return parent::save();
-	}
 
 	/**
 	 * @inheritDoc

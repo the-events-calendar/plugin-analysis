@@ -25,6 +25,16 @@ class Settings_Page {
 		);
 	}
 
+	function handle_clear_database_form_submission() {
+		global $wpdb;
+		$settings_page = PPERF_ANALYSIS_SLUG . '-settings';
+		$table         = pperf_get_run_table_name();
+		$wpdb->query( "TRUNCATE $table" );
+		// Redirect back to the settings page
+		wp_redirect( admin_url( "admin.php?page=$settings_page" ) );
+		exit;
+	}
+
 	function handle_settings_form_submission() {
 		// Process and save the form data here
 		$settings_page = PPERF_ANALYSIS_SLUG . '-settings';
@@ -58,8 +68,9 @@ class Settings_Page {
 	}
 
 	public function render() {
-		$action_slug = PPERF_ANALYSIS_SLUG . '-save';
-		$action      = admin_url( 'admin-post.php' );
+		$clear_action_slug = PPERF_ANALYSIS_SLUG . '-clear';
+		$save_action_slug  = PPERF_ANALYSIS_SLUG . '-save';
+		$action            = admin_url( 'admin-post.php' );
 
 		?>
         <div class="wrap">
@@ -69,8 +80,20 @@ class Settings_Page {
 				settings_fields( PPERF_ANALYSIS_SLUG . '-settings' );
 				do_settings_sections( PPERF_ANALYSIS_SLUG . '-settings' );
 				?>
-                <input type="hidden" name="action" value="<?php echo $action_slug; ?>"/>
+                <input type="hidden" name="action" value="<?php echo esc_attr( $save_action_slug ); ?>"/>
                 <input type="submit" name="submit" id="submit" class="button button-primary" value="Save">
+            </form>
+        </div>
+        <div class="wrap">
+            <h2>Data</h2>
+            <form method="post" action="<?php echo esc_attr( $action ); ?>"
+                  onsubmit=" return confirm('Are you sure you want to delete all historical data?');">
+                <p class="description"><?php echo _x( "Clear all historical performance data.", "Admin button description to truncate the performance data.", PPERF_ANALYSIS_SLUG ); ?></p>
+				<?php
+				settings_fields( PPERF_ANALYSIS_SLUG . '-settings' );
+				?>
+                <input type="hidden" name="action" value="<?php echo esc_attr( $clear_action_slug ); ?>"/>
+                <input type="submit" name="submit" id="submit" class="button button-primary" value="Clear All Data">
             </form>
         </div>
 		<?php

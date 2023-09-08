@@ -32,11 +32,11 @@ class Chart_Repository {
 
 	public function get_query_speed_chart_data() {
 		$watched_pages = $this->get_watched_pages();
-
+		$table = pperf_get_run_table_name();
 		$charts = [];
 // All
 		$q       = "SELECT avg(total_query_time) as `avg_load_time`, plugins_version_hash, count(*) as `total`
-FROM wp_pperf_run
+FROM $table
 group by plugins_version_hash
 limit 10";
 
@@ -47,7 +47,7 @@ limit 10";
 		foreach ( $watched_pages as $watched_page ) {
 			// Watched
 			$q       = "SELECT avg(total_query_time) as `avg_load_time`, plugins_version_hash, count(*) as `total`
-FROM wp_pperf_run
+FROM $table
 where request_uri = %s
 group by plugins_version_hash
 limit 10";
@@ -60,11 +60,11 @@ limit 10";
 
 	public function get_page_speed_chart_data() {
 		$watched_pages =$this->get_watched_pages();
-
+		$table = pperf_get_run_table_name();
 		$charts = [];
 // All
 		$q       = "SELECT avg(end_time) - avg(start_time) as `avg_load_time`, plugins_version_hash,count(*) as `total`
-FROM wp_pperf_run
+FROM $table
 group by plugins_version_hash
 limit 10";
 		// Put in Chart format.
@@ -74,7 +74,7 @@ limit 10";
 		foreach ( $watched_pages as $watched_page ) {
 			// Watched
 			$q       = "SELECT avg(end_time) - avg(start_time) as `avg_load_time`, plugins_version_hash,count(*) as `total`
-FROM wp_pperf_run
+FROM $table
 where request_uri = %s
 group by plugins_version_hash
 limit 10";
@@ -87,11 +87,11 @@ limit 10";
 
 	public function get_total_queries_chart_data() {
 		$watched_pages =$this->get_watched_pages();
-
+		$table = pperf_get_run_table_name();
 		$charts = [];
 // All
 		$q       = "SELECT avg(num_queries) as `avg_load_time`, plugins_version_hash,count(*) as `total`
-FROM wp_pperf_run
+FROM $table
 group by plugins_version_hash
 limit 10";
 		// Put in Chart format.
@@ -101,7 +101,7 @@ limit 10";
 		foreach ( $watched_pages as $watched_page ) {
 			// Watched
 			$q       = "SELECT avg(num_queries) as `avg_load_time`, plugins_version_hash,count(*) as `total`
-FROM wp_pperf_run
+FROM $table
 where request_uri = %s
 group by plugins_version_hash
 limit 10";
@@ -144,7 +144,8 @@ STR;
 
 
 	public function get_plugins_from_hash( $hash ): array {
-		$q = "SELECT active_plugins FROM wp_pperf_run WHERE plugins_version_hash=%s LIMIT 1";
+		$table = pperf_get_run_table_name();
+		$q = "SELECT active_plugins FROM $table WHERE plugins_version_hash=%s LIMIT 1";
 
 		return unserialize( $this->wpdb->get_var( $this->wpdb->prepare( $q, $hash ) ) );
 	}
