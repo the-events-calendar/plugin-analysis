@@ -1,6 +1,6 @@
 <?php
 
-namespace PPerf_Analysis;
+namespace PPerf_Analysis\Pages;
 
 class Settings_Page {
 	public function register_settings() {

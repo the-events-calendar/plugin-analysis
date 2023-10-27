@@ -1,8 +1,10 @@
 <?php
 
-namespace PPerf_Analysis;
+namespace PPerf_Analysis\Pages;
 
-class Analysis_Page {
+use PPerf_Analysis\Repositories\Chart_Repository;
+
+class Plugin_Cumulative_Query_Page {
 
 
 	public function __construct() {
@@ -12,39 +14,23 @@ class Analysis_Page {
 
 
 	public function render() {
-		echo "<div class='wrap'><h1>Performance Analysis Overview</h1>";
+		echo "<div class='wrap'><h1>Cumulative Query Speed per Plugin</h1>";
 		$chart_repo = new Chart_Repository();
-		$charts = $chart_repo->get_page_speed_by_plugin_charts();
-		$html = '';
-		foreach ( $charts as   $chart ) {
-			$html .= $this->get_column( $chart );
-		}
-		echo $this->get_section( 'Page Speed',
-			$this->get_container(
-				$html
-			)
-		);
-		$charts = $chart_repo->get_query_speed_by_plugin_charts();
-		$html = '';
-		foreach ( $charts as   $chart ) {
-			$html .= $this->get_column( $chart );
-		}
-		echo $this->get_section( 'Cumulative Query Speed',
-			$this->get_container(
-				$html
-			)
-		);
 
-		$charts = $chart_repo->get_total_queries_by_plugin_charts();
-		$html = '';
-		foreach ( $charts as   $chart ) {
-			$html .= $this->get_column( $chart );
+		$plugin_data = $chart_repo->get_query_speed_by_plugin_chart_data();
+
+		foreach ( $plugin_data as $name => $charts ) {
+			$html = '';
+			foreach ( $charts as $i => $chart ) {
+				$id   = sha1( $name . $i );
+				$html .= $this->get_column( $chart_repo->get_chart( "pperf_main_qry_spd_$id", $chart ) );
+			}
+			echo $this->get_section( $name,
+				$this->get_container( $html )
+			);
 		}
-		echo $this->get_section( 'Total Queries',
-			$this->get_container(
-				$html
-			)
-		);
+
+
 		echo "</div>";
 		echo $this->get_style();
 	}
