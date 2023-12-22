@@ -6,13 +6,6 @@ use PPerf_Analysis\Repositories\Chart_Repository;
 
 class Plugin_Cumulative_Query_Page {
 
-
-	public function __construct() {
-		global $wpdb;
-		$this->wpdb = $wpdb;
-	}
-
-
 	public function render() {
 		echo "<div class='wrap'><h1>Cumulative Query Speed per Plugin</h1>";
 		$chart_repo = new Chart_Repository();

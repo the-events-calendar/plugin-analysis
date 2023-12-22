@@ -6,13 +6,6 @@ use PPerf_Analysis\Repositories\Chart_Repository;
 
 class Overview_Page {
 
-
-	public function __construct() {
-		global $wpdb;
-		$this->wpdb = $wpdb;
-	}
-
-
 	public function render() {
 		echo "<div class='wrap'><h1>Performance Analysis Overview</h1>";
 		$chart_repo = new Chart_Repository();

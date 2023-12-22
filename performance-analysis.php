@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Plugin Performance Analysis
  * Description: Track various page and plugin performance metrics over time against previous plugin versions. Useful for monitoring performance of upcoming vs. past releases holistically.
- * Version: 1.2.0
+ * Version: 1.4.0
  * Author: The Events Calendar
  * License: GPL2
  */
@@ -12,10 +12,10 @@ use PPerf_Analysis\StellarWP\DB\DB;
 use PPerf_Analysis\StellarWP\DB\Config;
 
 
-const PPERF_ANALYSIS_VERSION   = '1.2.0';
+const PPERF_ANALYSIS_VERSION   = '1.4.0';
 const PPERF_ANALYSIS_SLUG      = 'plugin-perf';
 const PPERF_ANALYSIS_BASE_PATH = __FILE__;
-const PPERF_ANALYSIS_BASE_DIR = __DIR__.'/';
+const PPERF_ANALYSIS_BASE_DIR  = __DIR__ . '/';
 
 require __DIR__ . '/vendor/autoload.php';
 

@@ -2,8 +2,14 @@
 
 namespace PPerf_Analysis\Repositories;
 
+use PPerf_Analysis\Services\Templates;
+
 class Chart_Repository {
 
+	/**
+	 * @var wpdb
+	 */
+	protected $wpdb;
 	public function __construct() {
 		global $wpdb;
 		$this->wpdb = $wpdb;
@@ -278,29 +284,9 @@ STR;
 	}
 
 	public function get_chart( $id, array $chart ) {
-		$chart_json = json_encode( $chart );
-
-		return <<<STR
-<canvas id="{$id}"></canvas>
-<script>
-	jQuery( document ).ready(function() {
-		const ctx = document.getElementById('{$id}');
-        const chartData = {$chart_json};
-        chartData.options = {
-    		plugins: {
-                tooltip: {
-      				callbacks: {
-                        title: function(item) { 
-                           const index = item[0].dataIndex;
-                           return item[0].dataset.context.expandedLabels[index]
-                       }
-      				}
-		    	},
-		    }
-        };
-		new Chart(ctx, chartData);
-	});
-</script>
-STR;
+		// Stagger render of chart, because it's purdy.
+		static $stagger_by = 0;
+		$stagger_by +=120;
+		return Templates::render_view('d3-chart', ['stagger_by' => $stagger_by,'chart_data' => $chart, 'id' => $id]);
 	}
 }
