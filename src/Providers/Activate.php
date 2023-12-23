@@ -72,7 +72,7 @@ class Activate {
 				wp_enqueue_script( 'pperf-d3-js', $plugin_base_url . 'assets/js/chart.min.js', array( 'jquery' ), '1.0', false );
 
 				// Enqueue your CSS file
-				//wp_enqueue_style('pperf-d3-css', 'path/to/your-plugin.css', array(), '1.0');
+				wp_enqueue_style('pperf-bootstrap-grid-css', $plugin_base_url . 'assets/bootstrap-5.3.2-dist/css/bootstrap-grid.css', array(), '1.0');
 			}
 		} );
 	}

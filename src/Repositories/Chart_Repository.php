@@ -253,36 +253,6 @@ STR;
 		return $this->get_query_speed_by_plugin_chart_data();
 	}
 
-	public function get_query_speed_charts(): array {
-		$charts = $this->get_query_speed_chart_data();
-		$html   = [];
-		foreach ( $charts as $i => $chart ) {
-			$html[] = $this->get_chart( "pperf_main_qry_spd_$i", $chart );
-		}
-
-		return $html;
-	}
-
-	public function get_page_speed_by_plugin_charts(): array {
-		$charts = $this->get_page_speed_chart_data();
-		$html   = [];
-		foreach ( $charts as $i => $chart ) {
-			$html[] = $this->get_chart( "pperf_main_pg_spd_$i", $chart );
-		}
-
-		return $html;
-	}
-
-	public function get_total_queries_by_plugin_charts(): array {
-		$charts = $this->get_total_queries_chart_data();
-		$html   = [];
-		foreach ( $charts as $i => $chart ) {
-			$html[] = $this->get_chart( "pperf_main_total_qry_$i", $chart );
-		}
-
-		return $html;
-	}
-
 	public function get_chart( $id, array $chart ) {
 		// Stagger render of chart, because it's purdy.
 		static $stagger_by = 0;
