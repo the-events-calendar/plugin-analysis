@@ -3,6 +3,7 @@ namespace PPerf_Analysis\Providers;
 
 use PPerf_Analysis\Models\Plugin_Run;
 use PPerf_Analysis\Models\Run;
+use PPerf_Analysis\Pages\Custom_Chart_Page;
 use PPerf_Analysis\Pages\Overview_Page;
 use PPerf_Analysis\Pages\Plugin_Cumulative_Query_Page;
 use PPerf_Analysis\Pages\Settings_Page;
@@ -46,7 +47,6 @@ class Activate {
 			}
 		);
 
-		// Add parent page to admin menu
 		add_action( 'admin_menu',
 			function () {
 				$page = new Plugin_Cumulative_Query_Page();
@@ -58,6 +58,23 @@ class Activate {
 					'Cumulative Query Speed', // Menu title
 					'manage_options', // Capability required to access the page
 					PPERF_ANALYSIS_SLUG . '-cumulative-query-plugin', // Menu slug
+					[ $page, 'render' ] // Callback function to render the page content
+				);
+			}
+		);
+
+
+		add_action( 'admin_menu',
+			function () {
+				$page = new Custom_Chart_Page();
+
+				// Add child page under the parent page
+				add_submenu_page(
+					PPERF_ANALYSIS_SLUG, // Parent menu slug
+					'Build Customized Chart', // Page title
+					'Build Chart', // Menu title
+					'manage_options', // Capability required to access the page
+					PPERF_ANALYSIS_SLUG . '-custom-chart-builder', // Menu slug
 					[ $page, 'render' ] // Callback function to render the page content
 				);
 			}
