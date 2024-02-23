@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# Scaffold a stellarwp-bootstrap.php file adjacent to the project directory.
+#
+
+set -e
+
+# Set up colors.
+color_green="\033[0;32m"
+color_red="\033[0;31m"
+color_reset="\033[0;0m"
+
+src_file='resources/stubs/stellarwp-bootstrap.php'
+
+if [[ ! -f "$src_file" ]]; then
+    printf "\n${color_red}[ERROR] ${color_reset}%s\n" "Unable to find stub at ${src_file}" >&2
+    exit 1
+fi
+
+cp -i "$src_file" "../stellarwp-bootstrap.php"
+
+printf "${color_green}%s${color_reset}\n" 'Bootstrap file has been copied to ../stellarwp-bootstrap.php!'

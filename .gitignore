@@ -1,0 +1,36 @@
+# External dependencies.
+plugin-starter/vendor
+node_modules
+composer.lock
+
+# Artifacts.
+/dist
+plugin-starter/assets/
+/tests/coverage
+
+# Local overrides.
+.php-cs-fixer.php
+phpcs.xml
+phpunit.xml
+
+# Cache files.
+.php_cs.cache
+.php-cs-fixer.cache
+.phpunit.result.cache
+
+# Archives and dumps.
+*.sql
+*.tar.gz
+*.zip
+
+# System files.
+.DS_Store
+Thumbs.db
+
+# Editor files.
+*.code-workspace
+*.sublime*
+
+# Tasks files.
+*.TODO
+*.todo

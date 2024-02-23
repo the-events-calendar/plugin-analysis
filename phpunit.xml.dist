@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		bootstrap="tests/bootstrap.php"
+		backupGlobals="false"
+		cacheResult="true"
+		colors="true"
+		convertDeprecationsToExceptions="false"
+		convertErrorsToExceptions="true"
+		convertNoticesToExceptions="true"
+		convertWarningsToExceptions="true"
+		xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+>
+	<coverage processUncoveredFiles="true">
+		<include>
+			<directory suffix=".php">plugin-starter</directory>
+		</include>
+		<exclude>
+			<directory>plugin-starter/vendor</directory>
+		</exclude>
+	</coverage>
+	<testsuites>
+		<testsuite name="Unit">
+			<directory suffix="Test.php">./tests/Unit</directory>
+		</testsuite>
+		<testsuite name="Feature">
+			<directory suffix="Test.php">./tests/Feature</directory>
+		</testsuite>
+	</testsuites>
+	<php>
+		<!-- Assume the tests are running on example.com. -->
+		<server name="HTTP_HOST" value="example.com"/>
+
+		<!-- Tell the test suite which Container implmementation we're using. -->
+		<env name="STELLARWP_CONTAINER_CLASS" value="\StellarWP\PluginStarter\Container"/>
+
+		<!-- Assume WP_CLI is enabled. -->
+		<const name="WP_CLI" value="true"/>
+		<const name="WP_CLI_ROOT" value="./plugin-starter/vendor/wp-cli/wp-cli"/>
+	</php>
+</phpunit>
