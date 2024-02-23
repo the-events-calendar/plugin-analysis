@@ -1,0 +1,63 @@
+{
+  "name": "stratease/wp-perf-analysis",
+  "autoload": {
+    "psr-4": {
+      "PPerf_Analysis\\": "src/"
+    },
+    "classmap": [
+      "vendor/vendor-prefixed/"
+    ]
+  },
+  "require": {
+    "stellarwp/schema": "^1.1",
+    "lucatume/di52": "^3.3.0",
+    "psr/container": "^1.0.0",
+    "stellarwp/container-contract": "^1.0.4",
+    "stellarwp/db": "^1.0.3",
+    "stellarwp/models": "^1.2"
+  },
+  "repositories": [
+    {
+      "name": "lucatume/di52",
+      "type": "github",
+      "url": "https://github.com/lucatume/di52",
+      "no-api": true
+    },
+    {
+      "name": "stellarwp/models",
+      "type": "github",
+      "url": "https://github.com/stellarwp/models",
+      "no-api": true
+    }
+  ],
+  "scripts": {
+    "strauss": [
+      "test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/download/0.13.0/strauss.phar",
+      "@php bin/strauss.phar"
+    ],
+    "post-install-cmd": [
+      "@strauss"
+    ],
+    "post-update-cmd": [
+      "@strauss"
+    ]
+  },
+  "extra": {
+    "strauss": {
+      "target_directory": "vendor/vendor-prefixed",
+      "namespace_prefix": "PPerf_Analysis",
+      "classmap_prefix": "PPerf_Analysis__",
+      "constant_prefix": "PPERF_ANALYSIS_",
+      "packages": [
+        "stellarwp/container-contract",
+        "stellarwp/db",
+        "stellarwp/models",
+        "lucatume/di52",
+        "psr/container"
+      ],
+      "exclude_from_prefix": {
+        "file_patterns": []
+      }
+    }
+  }
+}
