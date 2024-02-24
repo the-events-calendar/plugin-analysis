@@ -1,0 +1,42 @@
+# Configuration for PHPStan
+# https://phpstan.org/config-reference
+
+includes:
+	# @see https://github.com/phpstan/phpstan-src/blob/master/conf/bleedingEdge.neon
+	- phar://phpstan.phar/conf/bleedingEdge.neon
+	# Include this extension
+	- plugin-starter/vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+	level: max
+	inferPrivatePropertyTypeFromConstructor: true
+
+	# Paths to be analyzed.
+	paths:
+		- %currentWorkingDirectory%/plugin-starter/
+		- %currentWorkingDirectory%/plugin-starter.php
+
+	# Paths to ignore.
+	excludePaths:
+		- %currentWorkingDirectory%/plugin-starter/vendor/*
+
+	scanFiles:
+		- %currentWorkingDirectory%/plugin-starter/vendor/php-stubs/wordpress-tests-stubs/wordpress-tests-stubs.php
+		- %currentWorkingDirectory%/plugin-starter.php
+
+	bootstrapFiles:
+		- %currentWorkingDirectory%/tests/phpstan-bootstrap.php
+
+	# Additional checks.
+	polluteScopeWithLoopInitialAssignments: true
+	polluteScopeWithAlwaysIterableForeach: true
+	checkAlwaysTrueCheckTypeFunctionCall: true
+	checkAlwaysTrueInstanceof: true
+	checkAlwaysTrueStrictComparison: true
+	checkExplicitMixedMissingReturn: true
+	checkFunctionNameCase: true
+	reportMaybesInMethodSignatures: true
+	reportStaticMethodSignatures: true
+	checkTooWideReturnTypesInProtectedAndPublicMethods: true
+	checkUninitializedProperties: true
+	checkMissingIterableValueType: true
