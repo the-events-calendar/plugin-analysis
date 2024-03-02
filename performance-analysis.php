@@ -1,23 +1,38 @@
 <?php
 /**
- * Plugin Name: Plugin Performance Analysis
- * Description: Track various page and plugin performance metrics over time against previous plugin versions. Useful for monitoring performance of upcoming vs. past releases holistically.
+ * Plugin Name: Plugin Analysis
+ * Description: Track various page and plugin performance metrics over time against previous plugin versions. Useful
+ * for monitoring performance of upcoming vs. past releases holistically.
  * Version: 1.5.0
- * Author: The Events Calendar
  * License: GPL2
+ * Author: The Events Calendar
+ * Text Domain: plugin-perf-analysis
  */
 
-use PPerf_Analysis\Providers\Activate;
+use PPerf_Analysis\Controllers\Activate;
 use PPerf_Analysis\StellarWP\DB\DB;
 use PPerf_Analysis\StellarWP\DB\Config;
-
+use PPerf_Analysis\lucatume\DI52\Container;
 
 const PPERF_ANALYSIS_VERSION   = '1.5.0';
-const PPERF_ANALYSIS_SLUG      = 'plugin-perf';
+const PPERF_ANALYSIS_SLUG      = 'pperf-analysis';
+const PPERF_HOOK_PREFIX        = 'pperf_analysis';
+const PPERF_TEXT_DOMAIN        = 'plugin-perf-analysis';
 const PPERF_ANALYSIS_BASE_PATH = __FILE__;
-const PPERF_ANALYSIS_BASE_DIR  = __DIR__ . '/';
+define( 'PPERF_ANALYSIS_BASE_DIR', plugin_dir_path( __FILE__ ) );
+define( 'PPERF_ANALYSIS_BASE_URL', plugins_url( '/', __FILE__ ) );
 
 require __DIR__ . '/vendor/autoload.php';
+
+// Initialize the plugin.
+try {
+	/** @var Activate $plugin */
+	$plugin = ( new Container() )->get( Activate::class );
+	$plugin->register();
+} catch ( \Exception $e ) {
+	$message = 'The Plugin Analysis plugin caught the following error: %s';
+	trigger_error( sprintf( $message, $e->getMessage() ), E_USER_ERROR );
+}
 
 function pperf_get_run_table_name() {
 	global $wpdb;
@@ -25,6 +40,7 @@ function pperf_get_run_table_name() {
 
 	return "{$table_prefix}pperf_run";
 }
+
 function pperf_get_plugin_run_table_name() {
 	global $wpdb;
 	$table_prefix = $wpdb->prefix;
@@ -32,18 +48,17 @@ function pperf_get_plugin_run_table_name() {
 	return "{$table_prefix}pperf_plugin_run";
 }
 
-$act = new Activate();
-$act->register();
-add_action( 'plugins_loaded', function() {
-	Config::setHookPrefix( 'boom-shakalaka' );
+
+add_action( 'plugins_loaded', function () {
+	Config::setHookPrefix( PPERF_HOOK_PREFIX );
 	DB::init();
 }, 0 );
 
 register_activation_hook( __FILE__, static function () {
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-	$schemas      = [];
+	$schemas          = [];
 	$plugin_run_table = pperf_get_plugin_run_table_name();
-	$run_table     = pperf_get_run_table_name();
+	$run_table        = pperf_get_run_table_name();
 
 	$schemas[] = "CREATE TABLE `$run_table` (
 `perf_run_id` bigint NOT NULL AUTO_INCREMENT,
