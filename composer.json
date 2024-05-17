@@ -40,12 +40,12 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^8.0",
-        "stellarwp/schema": "^1.1",
-        "lucatume/di52": "^3.3.0",
+        "lucatume/di52": "^3.3",
         "psr/container": "^1.0.0",
         "stellarwp/container-contract": "^1.0.4",
         "stellarwp/db": "^1.0.3",
-        "stellarwp/models": "dev-feat/type-validation"
+        "stellarwp/models": "dev-feat/type-validation",
+        "stellarwp/schema": "^1.1"
     },
     "require-dev": {
         "assertwell/wp-core-test-framework": "^0.2",

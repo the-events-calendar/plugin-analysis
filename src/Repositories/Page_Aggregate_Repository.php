@@ -2,6 +2,7 @@
 
 namespace PPerf_Analysis\Repositories;
 
+use PPerf_Analysis\Models\Snapshot;
 use PPerf_Analysis\Services\Templates;
 
 class Chart_Repository {
@@ -194,12 +195,7 @@ limit 10";
 	}
 
 	public function get_expanded_label( $row ) {
-		$plugins     = $this->get_plugins_from_hash( $row->plugins_version_hash );
-		$full_labels = [];
-		foreach ( $plugins as $plugin => $version ) {
-			$full_labels[] = "$plugin $version";
-		}
-		$plugins_expanded = implode( "\n", $full_labels );
+		$plugins_expanded = ( ( new Snapshot() )->find( $row->plugins_version_hash ) )->extended_label;
 
 		return <<<STR
 Page Hits: {$row->total}
@@ -208,20 +204,6 @@ Active Plugins:
 {$plugins_expanded}
 
 STR;
-	}
-
-	public function get_shortened_label( $row, int $max_length = 22 ) {
-		$plugins      = $this->get_plugins_from_hash( $row->plugins_version_hash );
-		$short_labels = array_map( function ( $plugin ) use ( $plugins ) {
-			return ucwords( trim( preg_replace( '/\b(\w)|./', '$1', $plugin ) ) ) . ' ' . $plugins[ $plugin ];
-		}, array_keys( $plugins ) );
-
-		$abbrev_label = implode( ', ', $short_labels );
-		if ( strlen( $abbrev_label ) > $max_length ) {
-			return substr( $abbrev_label, 0, $max_length ) . '...';
-		}
-
-		return $abbrev_label;
 	}
 
 

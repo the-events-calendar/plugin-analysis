@@ -41,6 +41,13 @@ function pperf_get_run_table_name() {
 	return "{$table_prefix}pperf_run";
 }
 
+function pperf_get_snapshot_table_name() {
+	global $wpdb;
+	$table_prefix = $wpdb->prefix;
+
+	return "{$table_prefix}pperf_snapshot";
+}
+
 function pperf_get_plugin_run_table_name() {
 	global $wpdb;
 	$table_prefix = $wpdb->prefix;
@@ -59,6 +66,7 @@ register_activation_hook( __FILE__, static function () {
 	$schemas          = [];
 	$plugin_run_table = pperf_get_plugin_run_table_name();
 	$run_table        = pperf_get_run_table_name();
+	$snapshot_table   = pperf_get_snapshot_table_name();
 
 	$schemas[] = "CREATE TABLE `$run_table` (
 `perf_run_id` bigint NOT NULL AUTO_INCREMENT,
@@ -67,7 +75,6 @@ register_activation_hook( __FILE__, static function () {
 `request_id` varchar(145) NOT NULL,
 `request_uri` varchar(350) NOT NULL,
 `num_queries` int(11) DEFAULT NULL,
-`active_plugins` text,
 `hooks` text,
 `plugins_version_hash` varchar(45) NOT NULL,
 `created_datetime` datetime DEFAULT NULL,
@@ -90,6 +97,12 @@ KEY (`perf_run_id`),
 KEY (`total_query_time`)
 );";
 
+	$schemas[] = "CREATE TABLE `$snapshot_table` (
+`plugins_version_hash` varchar(80) NOT NULL,
+`active_plugins` text,
+`created_datetime` datetime DEFAULT NULL,
+PRIMARY KEY (`plugins_version_hash`)
+);";
 	foreach ( $schemas as $schema ) {
 		dbDelta( $schema );
 	}

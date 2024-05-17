@@ -2,6 +2,9 @@
 namespace PPerf_Analysis\Services\Charts;
 use PPerf_Analysis\Services\Templates;
 
+/**
+ * Base class to handle mutating the data into a shape for displaying on a particular chart graphic.
+ */
 abstract class Abstract_Chart implements Chart_Contract {
 
 	protected array $snapshots = [];

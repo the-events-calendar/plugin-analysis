@@ -30,6 +30,7 @@ class Activate {
 			$pages = [
 				'toplevel_page_' . PPERF_ANALYSIS_SLUG,
 				'plugin-analysis_page_' . PPERF_ANALYSIS_SLUG . '-cumulative-query-plugin',
+				'plugin-analysis_page_' . PPERF_ANALYSIS_SLUG . '-custom-chart-builder',
 			];
 			if ( in_array( $hook, $pages ) ) {
 				$plugin_base_url = plugins_url( '/', PPERF_ANALYSIS_BASE_PATH );

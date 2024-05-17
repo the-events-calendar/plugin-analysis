@@ -194,7 +194,8 @@ limit 10";
 	}
 
 	public function get_expanded_label( $row ) {
-		$plugins     = $this->get_plugins_from_hash( $row->plugins_version_hash );
+		$plugins = $this->get_plugins_from_hash( $row->plugins_version_hash );
+
 		$full_labels = [];
 		foreach ( $plugins as $plugin => $version ) {
 			$full_labels[] = "$plugin $version";
@@ -225,11 +226,12 @@ STR;
 	}
 
 
-	public function get_plugins_from_hash( $hash ): array {
-		$table = pperf_get_run_table_name();
+	public function get_plugins_from_hash( $hash ): ?array {
+		$table = pperf_get_snapshot_table_name();
 		$q     = "SELECT active_plugins FROM $table WHERE plugins_version_hash=%s LIMIT 1";
+		$var   = $this->wpdb->get_var( $this->wpdb->prepare( $q, $hash ) );
 
-		return unserialize( $this->wpdb->get_var( $this->wpdb->prepare( $q, $hash ) ) );
+		return $var ? unserialize( $var ) : [];
 	}
 
 	public static function color_from_string( $str ) {
@@ -263,69 +265,85 @@ STR;
 		return [ round( $r ), round( $g ), round( $b ) ];
 	}
 
-	public static function hue2rgb($p, $q, $t) {
-	if($t < 0) $t += 1;
-	if($t > 1) $t -= 1;
-	if($t < 1/6) return $p + ($q - $p) * 6 * $t;
-	if($t < 1/2) return $q;
-	if($t < 2/3) return $p + ($q - $p) * (2/3 - $t) * 6;
-	return $p;
-}
-	public static function hslToRgb($h, $s, $l) {
-		$r = 0; $g= 0; $b = 0;
-			if ($s === 0) {
-				$r = $g = $b = $l;
-			} else {
-$q = $l < 0.5 ? $l * (1 + $s) : $l + $s - $l * $s;
-				$p = 2 * $l - $q;
-				$r = self::hue2rgb($p, $q, $h + 1/3);
-				$g = self::hue2rgb($p, $q, $h);
-				$b = self::hue2rgb($p, $q, $h - 1/3);
-			}
+	public static function hue2rgb( $p, $q, $t ) {
+		if ( $t < 0 ) {
+			$t += 1;
+		}
+		if ( $t > 1 ) {
+			$t -= 1;
+		}
+		if ( $t < 1 / 6 ) {
+			return $p + ( $q - $p ) * 6 * $t;
+		}
+		if ( $t < 1 / 2 ) {
+			return $q;
+		}
+		if ( $t < 2 / 3 ) {
+			return $p + ( $q - $p ) * ( 2 / 3 - $t ) * 6;
+		}
 
-			return [round($r * 255), round($g * 255), round($b * 255)];
+		return $p;
+	}
+
+	public static function hslToRgb( $h, $s, $l ) {
+		$r = 0;
+		$g = 0;
+		$b = 0;
+		if ( $s === 0 ) {
+			$r = $g = $b = $l;
+		} else {
+			$q = $l < 0.5 ? $l * ( 1 + $s ) : $l + $s - $l * $s;
+			$p = 2 * $l - $q;
+			$r = self::hue2rgb( $p, $q, $h + 1 / 3 );
+			$g = self::hue2rgb( $p, $q, $h );
+			$b = self::hue2rgb( $p, $q, $h - 1 / 3 );
 		}
-	public static function color_from_string_two($input) {
-		$hash = $input;
-		$chara = substr($hash,10,1);
-		$char_int = ord($chara);
-		if($char_int % 2 ===0) {
-			$charb = substr($hash,2,1);
-			$char_int += ord($charb);
+
+		return [ round( $r * 255 ), round( $g * 255 ), round( $b * 255 ) ];
+	}
+
+	public static function color_from_string_two( $input ) {
+		$hash     = $input;
+		$chara    = substr( $hash, 10, 1 );
+		$char_int = ord( $chara );
+		if ( $char_int % 2 === 0 ) {
+			$charb    = substr( $hash, 2, 1 );
+			$char_int += ord( $charb );
 		}
-		$up = isset($charb);
+		$up     = isset( $charb );
 		$result = 0;
-		$sat =  ord(substr($hash,3,1)) / 2;
-		$lum =  ord(substr($hash,4,1)) / 2;
-		foreach(str_split($hash) as $i) {
-			$result += ord($i)/16;
-			if($up) {
-				$sat += ord($i) / 16;
-				$lum += ord($i) / 16;
+		$sat    = ord( substr( $hash, 3, 1 ) ) / 2;
+		$lum    = ord( substr( $hash, 4, 1 ) ) / 2;
+		foreach ( str_split( $hash ) as $i ) {
+			$result += ord( $i ) / 16;
+			if ( $up ) {
+				$sat += ord( $i ) / 16;
+				$lum += ord( $i ) / 16;
 			}
-			if($chara === 'a') {
+			if ( $chara === 'a' ) {
 				break;
 			}
-			if($result > $char_int) {
+			if ( $result > $char_int ) {
 				break;
 			}
-			if($sat > 80) {
+			if ( $sat > 80 ) {
 				break;
 			}
-			if($lum > 70) {
+			if ( $lum > 70 ) {
 				break;
 			}
 		}
-		if($lum < 50) {
+		if ( $lum < 50 ) {
 			$lum += 30;
 		}
-/*		$rgb = self::hslToRgb($result, $sat, $lum);
-		$bright = sqrt( 0.299 * pow($rgb[0], 2) + 0.587 * pow($rgb[1], 2) + 0.114 * pow($rgb[2], 2) );
-		if ($bright >= 200) {
-			$sat = 60;
-		}*/
 
-		return [$result,$sat,$lum];
+		/*		$rgb = self::hslToRgb($result, $sat, $lum);
+				$bright = sqrt( 0.299 * pow($rgb[0], 2) + 0.587 * pow($rgb[1], 2) + 0.114 * pow($rgb[2], 2) );
+				if ($bright >= 200) {
+					$sat = 60;
+				}*/
+
+		return [ $result, $sat, $lum ];
 	}
 
 	public function chart_me( $label, $data, $labels, $context, $rows ) {
@@ -333,10 +351,10 @@ $q = $l < 0.5 ? $l * (1 + $s) : $l + $s - $l * $s;
 		$colors_bg     = [];
 		$colors_border = [];
 		foreach ( $rows as $row ) {
-			[$result, $sat, $lum]             = self::color_from_string_two( $row->plugins_version_hash );
+			[ $result, $sat, $lum ] = self::color_from_string_two( $row->plugins_version_hash );
 
-			$colors_bg[]     = 'hsla('.$result.', '.$sat.'%, '.$lum.'%, 0.6)';
-			$colors_border[] = 'hsl('.$result.', '.$sat.'%, '.$lum.'%)';
+			$colors_bg[]     = 'hsla(' . $result . ', ' . $sat . '%, ' . $lum . '%, 0.6)';
+			$colors_border[] = 'hsl(' . $result . ', ' . $sat . '%, ' . $lum . '%)';
 			//[$r, $g, $b]             = self::color_from_string( $row->plugins_version_hash );
 			//$colors_bg[]     = 'rgba(' . $r . ',' . $g . ',' . $b . ', 0.55)';
 			//$colors_border[] = 'rgba(' . $r . ',' . $g . ',' . $b . ', 1)';
