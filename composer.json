@@ -27,10 +27,7 @@
     "autoload": {
         "psr-4": {
             "PPerf_Analysis\\": "src/"
-        },
-        "classmap": [
-            "vendor/vendor-prefixed/"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {

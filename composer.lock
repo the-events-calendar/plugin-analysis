@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "000dfe4deb9adc2921a6f040a6ef5b31",
+    "content-hash": "811d9cf7d79ab35ed907e0b6862871aa",
     "packages": [
         {
             "name": "lucatume/di52",
@@ -199,16 +199,16 @@
         },
         {
             "name": "stellarwp/models",
-            "version": "dev-feat/type-validation",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stellarwp/models",
-                "reference": "3b1071b612d9036dfd2bfd3086c6d248418688ea"
+                "reference": "7c21d232c06a6670e5845570945791f2887ead48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stellarwp/models/zipball/3b1071b612d9036dfd2bfd3086c6d248418688ea",
-                "reference": "3b1071b612d9036dfd2bfd3086c6d248418688ea",
+                "url": "https://api.github.com/repos/stellarwp/models/zipball/7c21d232c06a6670e5845570945791f2887ead48",
+                "reference": "7c21d232c06a6670e5845570945791f2887ead48",
                 "shasum": ""
             },
             "require": {
@@ -226,6 +226,7 @@
                 "lucatume/wp-browser": "^3.0.14",
                 "phpunit/phpunit": "~6.0"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -251,7 +252,7 @@
             "keywords": [
                 "stellarwp"
             ],
-            "time": "2024-05-03T22:08:34+00:00"
+            "time": "2024-05-10T21:20:20+00:00"
         },
         {
             "name": "stellarwp/schema",
