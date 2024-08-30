@@ -17,7 +17,7 @@ class Plugin_Run extends Model {
 		'num_queries'        => 'int',
 		'plugin_version'     => 'string',
 		'plugin_name'        => 'string',
-		'created_datetime'   => 'datetime',
+		'created_datetime'   => 'string',
 		'total_query_time'   => 'float'
 	];
 

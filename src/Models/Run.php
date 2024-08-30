@@ -17,7 +17,7 @@ class Run extends Model  {
 		'num_queries' => 'int',
 		'hooks' => 'string',
 		'plugins_version_hash' => 'string',
-		'created_datetime' => 'datetime',
+		'created_datetime' => 'string',
 		'total_query_time' => 'float'
 	];
 

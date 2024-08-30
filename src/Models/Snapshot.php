@@ -22,7 +22,7 @@ class Snapshot extends Model implements ModelFromQueryBuilderObject{
 	protected $properties = [
 		'active_plugins'       => 'string',
 		'plugins_version_hash' => 'string',
-		'created_datetime'     => 'datetime',
+		'created_datetime'     => 'string',
 	];
 
 	public function __get( $field ) {

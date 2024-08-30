@@ -44,7 +44,7 @@
         "psr/container": "^1.0.0",
         "stellarwp/container-contract": "^1.0.4",
         "stellarwp/db": "^1.0.3",
-        "stellarwp/models": "dev-main",
+        "stellarwp/models": "dev-feat/float-datetime",
         "stellarwp/schema": "^1.1"
     },
     "require-dev": {
