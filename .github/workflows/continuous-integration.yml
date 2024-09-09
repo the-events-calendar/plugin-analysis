@@ -34,7 +34,7 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Configure PHP environment
         uses: shivammathur/setup-php@v2
@@ -67,7 +67,7 @@ jobs:
     name: Coding standards
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Configure PHP environment
         uses: shivammathur/setup-php@v2
@@ -94,7 +94,7 @@ jobs:
     name: Static code analysis
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Configure PHP environment
         uses: shivammathur/setup-php@v2
@@ -117,7 +117,7 @@ jobs:
     if: ${{ startsWith(github.event.pull_request.head.ref, 'release/') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Determine the release version
         id: parse-version
